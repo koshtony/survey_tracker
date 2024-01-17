@@ -1,0 +1,268 @@
+{% extends 'tracker_info/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<div class="main-content"> 
+    <section class="section">
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4>Tracking Form</h4>
+          &nbsp;&nbsp; &nbsp;&nbsp;
+          
+
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+        <form id="trackForm" method="POST">
+          <div class="row" style="margin-left:20px;">
+            <button class="btn btn-primary" type="submit" onclick="loadTrackForm();"> submit </button>
+          </div>
+          {% csrf_token %}
+        <div class="card-body">
+          <h4> Sample Details</h4>
+          <div class="row">
+            
+            <br>
+            
+          <div class="col-4">
+          <div class="form-group">
+           
+            {{form.HHID|as_crispy_field}}
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            
+            {{form.Supervisor|as_crispy_field}}
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            
+            {{form.Enumerator|as_crispy_field}}
+          </div>
+        </div>
+        
+        
+        </div>
+        <br>
+        <h4> RR status</h4>
+          <br>
+        <div class="row">
+          
+            
+          <div class="col-6">
+          <div class="form-group">
+           
+            {{form.RR_status|as_crispy_field}}
+          </div>
+        </div>
+        <div class="col-6">
+        </div>
+    
+        
+        </div>
+        <h4> RR1 Respondent</h4>
+        <br>
+        <div class="row">
+            
+          <div class="col-4">
+          <div class="form-group">
+           
+            {{form.attempt1_date|as_crispy_field}}
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            
+            {{form.attempt2_date|as_crispy_field}}
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            
+            {{form.attempt3_date|as_crispy_field}}
+          </div>
+        </div>
+        
+        </div>
+        <br>
+        <div class="row">
+            
+          <div class="col-4">
+          <div class="form-group">
+           
+            {{form.if_rr_surveyed_date|as_crispy_field}}
+          </div>
+        </div>
+        <div class="col-8">
+          <div class="form-group">
+            
+            {{form.if_rr_not_details|as_crispy_field}}
+          </div>
+        </div>
+       
+        
+        </div>
+        <br>
+        <div class="row">
+            
+          <div class="col-6">
+          <div class="form-group">
+           
+            {{form.status_of_RR1|as_crispy_field}}
+          </div>
+        </div>
+        
+       
+        
+        </div>
+        <br>
+        <h4>HR Module</h4>
+        
+        <div class="row">
+            
+      
+          <div class="form-group">
+           
+            {{form.HR_module_completed|as_crispy_field}}
+          </div>
+      
+       
+        
+        </div>
+        <br>
+        <h4>RR Module</h4>
+        
+        <div class="row">
+            
+      
+          <div class="form-group">
+           
+            {{form.RR_module_completed|as_crispy_field}}
+          </div>
+      
+       
+        
+        </div>
+        <br>
+        <h4>WER Module</h4>
+        <br>
+        <div class="row">
+            
+          <div class="col-6">
+          <div class="form-group">
+           
+            {{form.if_WER_eligible|as_crispy_field}}
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            
+            {{form.if_WER_eligible_coompleted|as_crispy_field}}
+          </div>
+        </div>
+       
+        
+        </div>
+        <br>
+        <h4>CR Module</h4>
+        <br>
+        <div class="row">
+            
+          <div class="col-6">
+          <div class="form-group">
+           
+            {{form.if_CR_eligible|as_crispy_field}}
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            
+            {{form.if_CR_eligible_completed|as_crispy_field}}
+          </div>
+        </div>
+       
+        
+        </div>
+        <br>
+        <h4>Comments</h4>
+        <br>
+        <div class="row">
+            
+          
+          <div class="form-group">
+           
+            {{form.comments|as_crispy_field}}
+          </div>
+        </div>
+        <br>
+        <div class="row">
+            
+          
+          <div class="form-group">
+           
+            {{form.mark|as_crispy_field}}
+          </div>
+        </div>
+        
+        </div>
+        
+      </form>
+       
+
+        
+        </div>
+        </div>
+      </div>
+      
+    </div>
+</div>
+</div>
+<script>
+
+  function loadTrackForm(){
+
+     $("#trackForm").submit(function(e){
+
+       
+        e.preventDefault();
+
+        $form = $(this)
+
+        var formData = new FormData(this);
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        console.log(formData);
+        $.ajax({
+
+          method:"POST",
+          url:"{% url 'tracker-add-survey-details' %}",
+          data:formData,
+          processData:false,
+          contentType:false,
+          beforeSend:function(){
+
+          },
+          success:function(data,status){
+
+            alert(data);
+
+          },
+
+          complete:function(data,status){
+
+
+          }
+        })
+     })
+  }
+
+</script>
+{% endblock content %}
+

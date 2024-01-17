@@ -1,0 +1,138 @@
+{% extends "tracker_info/base.html" %}
+{% block content %}
+<div class="main-content"> 
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-12">
+          <div class="card card-statistic-2">
+            <div class="card-stats">
+              <div class="card-stats-title">
+                
+              </div>
+              <div class="card-stats-items">
+                <div class="card-stats-item">
+                <a class="btn btn-primary" href="{% url 'tracker-add-survey-details' %}">+ New record</a>
+                </div>
+                
+               
+                
+              </div>
+            </div>
+            <div class="card-icon shadow-primary bg-primary" style="margin-bottom:50px;">
+              <i class="fas fa-archive"></i>
+            </div>
+            <div class="card-wrap" style="margin-bottom:50px;">
+              <div class="card-header">
+                <h4>Total Entries</h4>
+              </div>
+              <div class="card-body">
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12">
+          <div class="card card-statistic-2">
+            <div class="card-chart">
+              <canvas id="balance-chart" height="80"></canvas>
+            </div>
+            <div class="card-icon shadow-primary bg-primary">
+              <i class="fas fa-check"></i>
+            </div>
+            <div class="card-wrap">
+              <div class="card-header">
+                <h4>Complete</h4>
+              </div>
+              <div class="card-body">
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12">
+          <div class="card card-statistic-2">
+            <div class="card-chart">
+              <canvas id="sales-chart" height="80"></canvas>
+            </div>
+            <div class="card-icon shadow-primary bg-success">
+              <i class="fas fa-edit"></i>
+            </div>
+            <div class="card-wrap">
+              <div class="card-header">
+                <h4>Incomplete</h4>
+              </div>
+              <div class="card-body">
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-header">
+              <h4>Records</h4>
+              <div class="card-header-action">
+                <a href="#" class="btn btn-danger">View More <i class="fas fa-chevron-right"></i></a>
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive table-invoice">
+                <table class="table table-striped">
+                
+                  <tr>
+                    <th>HHID</th>
+                    <th>Supervisor</th>
+                    
+                    <th>RR Name</th>
+                    <th>doc status </th>
+                    <th>Last Edit</th>
+                    <th>Action</th>
+                  </tr>
+                  
+                 
+                  
+                  {% for tracking in trackings %}
+                  <tr>
+                    <td>{{tracking.HHID}}</td>
+                    <td class="font-weight-600">{{tracking.supervisor}}</td>
+                    <td class="font-weight-600">{{tracking.RR_name}}</td>
+                    
+                    {% if tracking.mark == False %}
+                    <td><div class="badge badge-danger">Incomplete</div></td>
+                    {% else %}
+                    <td><div class="badge badge-success">Complete</div></td>
+                    {% endif %}
+                    <td>{{tracking.last_updated}}</td>
+                  
+                    <td>
+                      <a href="{% url 'tracker-update-survey-details' tracking.pk %}" class="btn btn-primary">Continue</a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-hero">
+            <div class="card-header">
+              <div class="card-icon">
+                <i class="far fa-question-circle"></i>
+              </div>
+              <h4>{{trackings | length}}</h4>
+              <div class="card-description"></div>
+            </div>
+            <div class="card-body p-0">
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+{% endblock content %}
