@@ -128,7 +128,7 @@ def update_survey_details(request,pk):
     
     form = EditTrackingForm(instance=tracking_detail)
     
-    context = {"form":form}
+    context = {"form":form, "pk":pk}
     
     if request.POST:
         
@@ -148,7 +148,11 @@ def delete_survey_details(request,pk):
 
 def view_survey_details(request):
     
-    pass  
+    trackings = TrackingDetails.objects.all()
+    
+    context = {"trackings":trackings}
+    
+    return render(request,'tracker_info/view_data.html',context)
 
 def download_survey_details(request):
     

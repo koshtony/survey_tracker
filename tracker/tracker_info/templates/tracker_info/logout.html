@@ -1,0 +1,88 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Logout Wave 2 F2F</title>
+
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="{% static 'tracker_info/assets/modules/bootstrap/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'tracker_info/assets/modules/fontawesome/css/all.min.css' %}">
+
+  <!-- CSS Libraries -->
+  <link rel="stylesheet" href="{% static 'tracker_info/assets/modules/bootstrap-social/bootstrap-social.css' %}">
+
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="{% static 'tracker_info/assets/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'tracker_info/assets/css/components.css' %}">
+<!-- Start GA -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-94034622-3');
+</script>
+<!-- /END GA --></head>
+
+<body>
+  <div id="app">
+    <section class="section">
+      <div class="container mt-5">
+        <div class="row">
+          <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+            <div class="login-brand">
+              <img src="data:image/png;base64,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" alt="logo" width="100" class="shadow-light rounded-circle">
+            </div>
+
+            <div class="card card-primary">
+              <div class="card-header"><h4>Logout successful</h4></div>
+
+
+              <div class="card-body">
+                
+
+                  <div class="form-group">
+                    <a type="button" href="{% url 'login' %}" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                      Login
+                    </a>
+                  </div>
+                
+                
+                
+
+              </div>
+            </div>
+            
+            <div class="simple-footer">
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <!-- General JS Scripts -->
+  <script src="{% static 'tracker_info/assets/modules/jquery.min.js' %}"></script>
+  <script src="{% static 'tracker_info/assets/modules/popper.js' %}"></script>
+  <script src="{% static 'tracker_info/assets/modules/tooltip.js' %}"></script>
+  <script src="{% static 'tracker_info/assets/modules/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'tracker_info/assets/modules/nicescroll/jquery.nicescroll.min.js' %}"></script>
+  <script src="{% static 'tracker_info/assets/modules/moment.min.js' %}"></script>
+  <script src="{% static 'tracker_info/assets/js/stisla.js' %}"></script>
+  
+  <!-- JS Libraies -->
+
+  <!-- Page Specific JS File -->
+  
+  <!-- Template JS File -->
+  <script src="{% static 'tracker_info/assets/js/scripts.js' %}"></script>
+  <script src="{% static 'tracker_info/assets/js/custom.js' %}"></script>
+
+
+</body>
+</html>

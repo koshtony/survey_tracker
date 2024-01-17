@@ -1,0 +1,161 @@
+{% extends 'tracker_info/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+
+<div class="main-content"> 
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                <div class="col-6">
+                <button class="btn btn-outline" onclick="htmlTableToExcel('xlsx','TrackingDataTab','Survey_Track_Data')"><svg width="44px" height="44px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12ZM12 6.25C12.4142 6.25 12.75 6.58579 12.75 7V12.1893L14.4697 10.4697C14.7626 10.1768 15.2374 10.1768 15.5303 10.4697C15.8232 10.7626 15.8232 11.2374 15.5303 11.5303L12.5303 14.5303C12.3897 14.671 12.1989 14.75 12 14.75C11.8011 14.75 11.6103 14.671 11.4697 14.5303L8.46967 11.5303C8.17678 11.2374 8.17678 10.7626 8.46967 10.4697C8.76256 10.1768 9.23744 10.1768 9.53033 10.4697L11.25 12.1893V7C11.25 6.58579 11.5858 6.25 12 6.25ZM8 16.25C7.58579 16.25 7.25 16.5858 7.25 17C7.25 17.4142 7.58579 17.75 8 17.75H16C16.4142 17.75 16.75 17.4142 16.75 17C16.75 16.5858 16.4142 16.25 16 16.25H8Z" fill="#15d912"></path> </g></svg></button>
+                </div>
+                <div class="col-6">
+
+                    <label for="underline_select" class="sr-only">Audit</label>
+                        <select id="underline_select">
+                            <option selected>Audit</option>
+                            <option value="revise">Revised</option>
+                            <option value="approved">Approved</option>
+                            <option value="delete">Delete</option>
+                            
+                        </select>
+                </div>
+            </div>
+        <div class="row">
+        <div class="table-responsive" style="margin:30px;">
+            <table class="table table-striped" id="TrackingDataTab">
+               
+                    
+                
+                
+            <thead style="border: 1px solid black;">
+                <tr style="border: 1px solid black;">
+                    <th colspan="3" style="text-align:center; border: 1px solid black;">System Actions</th>
+                    <th colspan="8" style="text-align:center; border: 1px solid black;">Sample Details</th>
+                    <th colspan="4" style="text-align:center;border: 1px solid black;">Household Details</th>
+                    <th style="text-align:center;border: 1px solid black;">RR Status</th>
+                    <th colspan="6" style="text-align:center;border: 1px solid black;">RR1 Respondent </th>
+                    <th  style="text-align:center;border: 1px solid black;">HR Module</th>
+                    <th  style="text-align:center;border: 1px solid black;">RR Module</th>
+                    <th colspan="2" style="text-align:center;border: 1px solid black;">WER Module</th>
+                    <th colspan="2" style="text-align:center;border: 1px solid black;">CR Module</th>
+                    <th  style="text-align:center;border: 1px solid black;">Comments</th>
+                </tr>
+                
+              <tr>
+                <th style="border: 1px solid black;">Mark as Complete</th>
+                
+                <th style="border: 1px solid black;">Audit</th>
+                
+                
+                <th style="border: 1px solid black;">Action</th>
+                <th style="border: 1px solid black;">Batch</th>
+                <th style="border: 1px solid black;">Sample</th>
+                
+                <th style="border: 1px solid black;">Sample Type</th>
+                <th style="border: 1px solid black;">Stratum</th>
+                <th style="border: 1px solid black;">Status</th>
+                <th style="border: 1px solid black;">HHID</th>
+                <th style="border: 1px solid black;">Supervisor</th>
+                <th style="border: 1px solid black;">Enumerator</th>
+                <th style="border: 1px solid black;">HR Name</th>
+                <th style="border: 1px solid black;">RR Name</th>
+                <th style="border: 1px solid black;">WER Name</th>
+                <th style="border: 1px solid black;">CR Name</th>
+                <th style="border: 1px solid black;">RR Status</th>
+                <th style="border: 1px solid black;">Date & Time of 1st attempt to surver RR</th>
+                <th style="border: 1px solid black;">Date & Time of 2nd attempt to surver RR</th>
+                <th style="border: 1px solid black;">Date & Time of 3rd attempt to surver RR</th>
+                <th style="border: 1px solid black;">if RR was surveyed,record the date of interview</th>
+                <th style="border: 1px solid black;">If attempts to survey the RR in their original/current household were not successful, Please record in detail the outcome from the attempts made to interview RR1 </th>
+                <th style="border: 1px solid black;">Status of RR1 Respondent Replacement approval [Based on feedback from column R]</th>
+                <th style="border: 1px solid black;">Has the HR module been completed or not completed?</th>
+                <th style="border: 1px solid black;">Has the RR module been completed or not completed?</th>
+                <th style="border: 1px solid black;">If RR household was surveyed, was the household eligible for the WER module</th>
+                <th style="border: 1px solid black;">If eligible, has the WER module been completed or not completed?</th>
+                <th style="border: 1px solid black;">If RR household was surveyed, was the household eligible for the CR module</th>
+                <th style="border: 1px solid black;">If eligible, has the CR module been completed or not completed</th>
+                <th style="border: 1px solid black;">Comments</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+             
+              
+              {% for tracking in trackings %}
+              <tr>
+                <td><div class="flex items-center">
+                    <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                </div>
+                </td>
+                
+                <td><div class="flex items-center">
+                    <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    
+                </div></td>
+                
+                <td><a href="{% url 'tracker-update-survey-details' tracking.pk %}" class="btn btn-primary">Continue</a></td>
+                <td>{{tracking.Batch}}</td>
+                <td>{{tracking.Sample}}</td>
+                <td>{{tracking.Sample_type}}</td>
+                <td>{{tracking.Stratum}}</td>
+                <td>{{tracking.Status}}</td>
+                <td>{{tracking.HHID}}</td>
+                <td>{{tracking.Supervisor}}</td>
+                <td>{{tracking.Enumerator}}</td>
+                <td>{{tracking.HR_name}}</td>
+                <td>{{tracking.RR_name}}</td>
+                <td>{{tracking.WER_name}}</td>
+                <td>{{tracking.CR_name}}</td>
+                <td>{{tracking.RR_status}}</td>
+                <td>{{tracking.attempt1_date}}</td>
+                <td>{{tracking.attempt2_date}}</td>
+                <td>{{tracking.attempt3_date}}</td>
+                <td>{{tracking.if_rr_surveyed_date}}</td>
+                <td>{{tracking.if_rr_not_details}}</td>
+                <td>{{tracking.status_of_RR1}}</td>
+                <td>{{tracking.HR_module_completed}}</td>
+                <td>{{tracking.RR_module_completed}}</td>
+                <td>{{tracking.if_WER_eligible}}</td>
+                <td>{{tracking.if_WER_eligible_completed}}</td>
+                <td>{{tracking.if_CR_eligible}}</td>
+                <td>{{tracking.if_CR_eligible_completed}}</td>
+                <td>{{tracking.comments}}</td>
+
+
+                
+                
+
+                
+              </tr>
+              {% endfor %}
+            </tbody>
+            </table>
+          </div>
+
+    </div>
+</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+
+<script>
+
+    new DataTable('#TrackingDataTab');
+
+
+    function htmlTableToExcel(type,id,name){
+        var data = document.getElementById(id);
+        var excelFile = XLSX.utils.table_to_book(data, {sheet: "sheet1"});
+        XLSX.write(excelFile, { bookType: type, bookSST: true, type: 'base64' });
+        XLSX.writeFile(excelFile, name+'.' + type);
+       }
+</script>
+
+
+{% endblock %}
