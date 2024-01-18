@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse,FileResponse
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from.forms import TrackingForm,EditTrackingForm
 from .models import TrackingDetails
 from .load_data import lookup_hhid,export_data
@@ -9,15 +10,16 @@ from datetime import datetime as datetime
 import os
 
 # Create your views here.
-
+@login_required
 def view_dashboard(request):
     
-    trackings = TrackingDetails.objects.all()
+    trackings = TrackingDetails.objects.all().order_by('-pk')
     
     context = {"trackings":trackings}
     
     return render(request,'tracker_info/dashboard.html',context)
 
+@login_required
 def add_survey_details(request):
     
     form = TrackingForm()
@@ -64,10 +66,10 @@ def add_survey_details(request):
             
             
             try:
-               if len(lookup_hhid(int(hhid)))>=1:
+                
+               
                     data_dict = lookup_hhid(int(hhid))[0]
-               elif len(lookup_hhid(int(hhid)))==0:
-                   JsonResponse("No matching HHID details found",safe=False)
+               
                
                    
                
@@ -122,30 +124,78 @@ def add_survey_details(request):
     
     return render(request,'tracker_info/add_record.html',context)
 
+@login_required
 def update_survey_details(request,pk):
     
     tracking_detail = TrackingDetails.objects.get(pk=pk)
     
+    tracking_filt = TrackingDetails.objects.filter(pk=pk)[0]
+    
     form = EditTrackingForm(instance=tracking_detail)
     
-    context = {"form":form, "pk":pk}
+    context = {"form":form, "pk":pk,"tracking":tracking_detail}
     
     if request.POST:
         
         edit_form = EditTrackingForm(request.POST,instance=tracking_detail)
+        edit_commit = edit_form.save(commit=False)
         
-        edit_form.save()
+        if edit_form.is_valid():
+            
+            #print(datetime.combine(edit_form.cleaned_data.get("attempt2_date"),datetime.strptime(datetime.now().strftime("%H:%M:%S"),"%H:%M:%S").time()))
         
-        return JsonResponse("info updated",safe=False)
+            if tracking_filt.attempt1_date!=None:
+                
+                edit_commit.attempt1_date = tracking_filt.attempt1_date
+                
+            elif edit_form.cleaned_data.get("attempt1_date")!=None:
+                
+                edit_commit.attempt1_date=datetime.combine(edit_form.cleaned_data.get("attempt1_date"),datetime.strptime(datetime.now().strftime("%H:%M:%S"),"%H:%M:%S").time())
+                
+                
+            
+            if tracking_filt.attempt2_date!=None:
+                
+                edit_commit.attempt2_date = tracking_filt.attempt2_date
+                
+            elif edit_form.cleaned_data.get("attempt2_date")!=None:
+                
+                edit_commit.attempt2_date=datetime.combine(edit_form.cleaned_data.get("attempt2_date"),datetime.strptime(datetime.now().strftime("%H:%M:%S"),"%H:%M:%S").time())
+                
+            
+            if tracking_filt.attempt3_date!=None:
+                
+                edit_commit.attempt3_date = tracking_filt.attempt3_date
+                
+            elif edit_form.cleaned_data.get("attempt3_date")!=None:
+                
+                edit_commit.attempt3_date=datetime.combine(edit_form.cleaned_data.get("attempt3_date"),datetime.strptime(datetime.now().strftime("%H:%M:%S"),"%H:%M:%S").time())
+                
+            if tracking_filt.if_rr_surveyed_date!=None:
+                
+                edit_commit.if_rr_surveyed_date = tracking_filt.if_rr_surveyed_date
+                
+            elif edit_form.cleaned_data.get("if_rr_surveyed_date")!=None:
+                
+                edit_commit.if_rr_surveyed_date=datetime.combine(edit_form.cleaned_data.get("if_rr_surveyed_date"),datetime.strptime(datetime.now().strftime("%H:%M:%S"),"%H:%M:%S").time())
+            
+                
+            
+            
+            edit_commit.save()
+            
+            return JsonResponse("info updated",safe=False)
     
     
     
     return render(request,'tracker_info/edit_record.html',context)
 
+@login_required
 def delete_survey_details(request,pk):
     
     pass 
 
+@login_required
 def view_survey_details(request):
     
     trackings = TrackingDetails.objects.all()
@@ -154,6 +204,7 @@ def view_survey_details(request):
     
     return render(request,'tracker_info/view_data.html',context)
 
+@login_required
 def download_survey_details(request):
     
     filename = "tracking_sheet_details.xlsx"
@@ -167,5 +218,14 @@ def download_survey_details(request):
     
     return response
     
+# create user 
+
+def register_user(request):
+    
+    pass 
+
+def activate_user(request):
+    
+    pass
     
     

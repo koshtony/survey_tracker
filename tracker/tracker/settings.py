@@ -121,6 +121,8 @@ USE_TZ = True
 
 # login 
 
+#AUTH_USER_MODEL = "tracker_info.Account"
+
 LOGIN_REDIRECT_URL = 'tracker-dashboard'
 LOGIN_URL = 'login'
 # Static files (CSS, JavaScript, Images)

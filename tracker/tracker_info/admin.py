@@ -1,5 +1,5 @@
 from django.contrib import admin
-from tracker_info.models import TrackingDetails,Supervisors
+from tracker_info.models import TrackingDetails
 
 # Register your models here.
 class TrackDetailsInline(admin.TabularInline):
@@ -8,3 +8,5 @@ class TrackDetailsInline(admin.TabularInline):
     max_num = 1
     
 admin.site.register(TrackingDetails)
+
+

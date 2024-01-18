@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+
 # Create your models here.
 
 class TrackingDetails(models.Model):
@@ -69,6 +70,8 @@ class TrackingDetails(models.Model):
     
     mark = models.BooleanField(default=False,verbose_name="completed the required fields")
     
+    audit = models.BooleanField(default=False,verbose_name="audit status")
+    
     last_updated = models.DateTimeField(default=timezone.now)
     
     def __str__(self):
@@ -79,7 +82,8 @@ class TrackingDetails(models.Model):
 class Supervisors(models.Model):
     
     name = models.CharField(max_length=100,default="")
-    
+
+
     
     
     
