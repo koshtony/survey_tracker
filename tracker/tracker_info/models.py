@@ -45,23 +45,24 @@ class TrackingDetails(models.Model):
     
     # HR Module 
     HR_module_completed_choices =  (("",""),("Completed","Completed"),("Not Completed","Not Completed"))
+    accompanied_by_supervisor_choices = (("",""),("Partially Accompanied","Partially Accompanied"),("Fully Accompanied","Fully Accompanied"))
     HR_module_completed = models.CharField(max_length=100,blank=True,null=True,choices = HR_module_completed_choices,verbose_name="Has the HR module been completed or not completed?")
-    
+    HR_accompanied = models.CharField(max_length=100,blank=True,null=True,choices = accompanied_by_supervisor_choices,verbose_name="Were you accompanied by the supervisor?")
     # RR module
     RR_module_completed_choices =  (("",""),("Completed","Completed"),("Not Completed","Not Completed"))
     RR_module_completed = models.CharField(max_length=100,blank=True,null=True,choices = RR_module_completed_choices,verbose_name='Has the RR module been completed or not completed?')
-    
+    RR_accompanied = models.CharField(max_length=100,blank=True,null=True,choices = accompanied_by_supervisor_choices,verbose_name="Were you accompanied by the supervisor?")
     #WER module 
     if_WER_eligible_choices = (("",""),("Eligible","Eligible"),("Not Eligible","Not Eligible"))
     if_WER_eligible = models.CharField(max_length=100,blank=True,null=True,choices=if_WER_eligible_choices,verbose_name = "If RR household was surveyed, was the household eligible for the WER module")
     
     if_WER_eligible_coompleted = models.CharField(max_length=100,blank=True,null=True,choices=HR_module_completed_choices, verbose_name="If eligible, has the WER module been completed or not completed?")
-    
+    WER_accompanied = models.CharField(max_length=100,blank=True,null=True,choices = accompanied_by_supervisor_choices,verbose_name="Were you accompanied by the supervisor?")
     #CR module 
     
     if_CR_eligible = models.CharField(max_length=100,blank=True,choices=if_WER_eligible_choices,verbose_name = "If RR household was surveyed, was the household eligible for the CR module") 
     if_CR_eligible_completed = models.CharField(max_length=100,blank=True,null=True,choices=HR_module_completed_choices, verbose_name="If eligible, has the CR module been completed or not completed?")
-    
+    CR_accompanied = models.CharField(max_length=100,blank=True,null=True,choices = accompanied_by_supervisor_choices,verbose_name="Were you accompanied by the supervisor?")
     # comments 
     
     comments = models.TextField(blank=True,null=True,verbose_name="Record any other comment on the household/interview") #
@@ -82,6 +83,20 @@ class TrackingDetails(models.Model):
 class Supervisors(models.Model):
     
     name = models.CharField(max_length=100,default="")
+    
+class Profile(models.Model):
+    
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    supervisor = models.CharField(max_length=100,blank=True, null=True,verbose_name="Supervisor username")
+    coordinator = models.CharField(max_length=100,blank=True, null=True,verbose_name="Coordinator username")
+    is_supervisor = models.BooleanField(default=False)
+    is_coordinator = models.BooleanField(default=False)
+    image = models.ImageField(default="user.png",upload_to="profile_images")
+    
+    def __str__(self):
+        
+        return f'{self.user.username} Profile'
+    
 
 
     

@@ -26,7 +26,7 @@
                 <h4>Total Entries</h4>
               </div>
               <div class="card-body">
-                
+                {{mytotal}}
               </div>
             </div>
           </div>
@@ -44,7 +44,7 @@
                 <h4>Complete</h4>
               </div>
               <div class="card-body">
-                
+                {{complete}}
               </div>
             </div>
           </div>
@@ -62,7 +62,7 @@
                 <h4>Incomplete</h4>
               </div>
               <div class="card-body">
-                
+                {{incomplete}}
               </div>
             </div>
           </div>
@@ -106,10 +106,11 @@
                     <td><div class="badge badge-success">Complete</div></td>
                     {% endif %}
                     <td>{{tracking.last_updated}}</td>
-                  
+                   {% if tracking.user.username == request.user.username or tracking.user.profile.supervisor == request.user.username  %}
                     <td>
                       <a href="{% url 'tracker-update-survey-details' tracking.pk %}" class="btn btn-primary">Continue</a>
                     </td>
+                    {% endif %}
                   </tr>
                   {% endfor %}
                 </table>
@@ -123,7 +124,7 @@
               <div class="card-icon">
                 <i class="far fa-question-circle"></i>
               </div>
-              <h4>{{trackings | length}}</h4>
+              <h4>{{all}}</h4>
               <div class="card-description"></div>
             </div>
             <div class="card-body p-0">

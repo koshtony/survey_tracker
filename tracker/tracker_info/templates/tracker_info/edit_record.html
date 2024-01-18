@@ -10,6 +10,14 @@
       <div class="card">
         <div class="card-header">
           <h4>Tracking Form</h4>
+          
+            <strong>Author</strong>
+            <img alt="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQmCNnZK9CjOXxGNwA7c9L9DfzXsibZE8hzsDoyMgWNvJgyT8xyyt7J7fK7Q&s" style="width:20px;" class="rounded-circle mr-1">
+            <div class="d-sm-none d-lg-inline-block">{{tracking.user.username}}</div>
+
+        
+        
+
           &nbsp;&nbsp; &nbsp;&nbsp;
 
           <!--===========================spinners=================== -->
@@ -51,7 +59,7 @@
           <div class="row" style="margin-left:20px;">
             <div class="col-6">
               <div class="form-group">
-            <button class="btn btn-primary" type="submit" onclick="loadTrackForm();"> submit </button>
+            <button class="btn btn-primary" type="submit" onclick="loadTrackForm();" style="background-color:yellowgreen;"> submit </button>
               </div>
             </div>
             <div class="col-6">
@@ -61,10 +69,13 @@
               </div>
             
           </div>
-        </div>
+          </div>
           {% csrf_token %}
         <div class="card-body">
-          <h4> Sample Details</h4>
+          <div class="card" style="background-color:greenyellow;height:40px;">
+            <h2 style="text-align:center;margin-top:10px; fontweight:bold; font-size:20px; color:white;">Sample Details</h2>
+          </div>
+            <br>
           <div class="row">
             
             <br>
@@ -91,8 +102,10 @@
         
         </div>
         <br>
-        <h4> RR status</h4>
-          <br>
+        <div class="card" style="background-color:greenyellow;height:40px;">
+          <h2 style="text-align:center;margin-top:10px; fontweight:bold; font-size:20px; color:white;">RR Status</h2>
+        </div>
+        <br>
         <div class="row">
           
             
@@ -107,14 +120,15 @@
     
         
         </div>
-        <h4> RR1 Respondent</h4>
+        <br>
+        <div class="card" style="background-color:greenyellow;height:40px;">
+          <h2 style="text-align:center;margin-top:10px; fontweight:bold; font-size:20px; color:white;">RR1 Respondent</h2>
+        </div>
         <br>
         <div class="row">
             
           <div class="col-4">
           <div class="form-group">
-
-           
            
             {{form.attempt1_date|as_crispy_field}}
           </div>
@@ -155,45 +169,68 @@
         <div class="row">
             
           <div class="col-6">
+            {% if user.is_staff or user.profile.is_supervisor %}
           <div class="form-group">
            
             {{form.status_of_RR1|as_crispy_field}}
           </div>
+          {% endif %}
         </div>
         
        
         
         </div>
         <br>
-        <h4>HR Module</h4>
+        <br>
+        <div class="card" style="background-color:greenyellow;height:40px;">
+          <h2 style="text-align:center;margin-top:10px; fontweight:bold; font-size:20px; color:white;">HR Module</h2>
+        </div>
+        <br>
         
         <div class="row">
             
-      
+          <div class="col-6">
           <div class="form-group">
            
             {{form.HR_module_completed|as_crispy_field}}
           </div>
-      
-       
-        
-        </div>
-        <br>
-        <h4>RR Module</h4>
-        
-        <div class="row">
-            
-      
-          <div class="form-group">
-           
-            {{form.RR_module_completed|as_crispy_field}}
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+            {{form.HR_accompanied|as_crispy_field}}
+            </div>
           </div>
       
        
         
         </div>
         <br>
-        <h4>WER Module</h4>
+        <div class="card" style="background-color:greenyellow;height:40px;">
+          <h2 style="text-align:center;margin-top:10px; fontweight:bold; font-size:20px; color:white;">RR Module</h2>
+        </div>
+        <br>
+        <div class="row">
+            
+          <div class="col-6">
+          <div class="form-group">
+           
+            {{form.RR_module_completed|as_crispy_field}}
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+           
+            {{form.RR_accompanied|as_crispy_field}}
+          </div>
+        </div>
+      
+       
+        
+        </div>
+        <br>
+        <div class="card" style="background-color:greenyellow;height:40px;">
+          <h2 style="text-align:center;margin-top:10px; fontweight:bold; font-size:20px; color:white;">WER Module</h2>
+        </div>
         <br>
         <div class="row">
             
@@ -212,8 +249,16 @@
        
         
         </div>
+        <div class="row">
+          <div class="form-group">
+           
+            {{form.WER_accompanied|as_crispy_field}}
+          </div>
+        </div>
         <br>
-        <h4>CR Module</h4>
+        <div class="card" style="background-color:greenyellow;height:40px;">
+          <h2 style="text-align:center;margin-top:10px; fontweight:bold; font-size:20px; color:white;">CR Module</h2>
+        </div>
         <br>
         <div class="row">
             
@@ -232,8 +277,18 @@
        
         
         </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+             
+              {{form.CR_accompanied|as_crispy_field}}
+            </div>
+          </div>
+        </div>
         <br>
-        <h4>Comments</h4>
+        <div class="card" style="background-color:greenyellow;height:40px;">
+        <h2 style="text-align:center;margin-top:10px; fontweight:bold; font-size:20px; color:white;">Comments</h2>
+        </div>
         <br>
         <div class="row">
             

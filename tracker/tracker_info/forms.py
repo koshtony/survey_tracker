@@ -25,11 +25,11 @@ class TrackingForm(forms.ModelForm):
         fields = [
             'HHID','Supervisor','Enumerator','RR_status','attempt1_date','attempt2_date','attempt3_date',
             
-            'if_rr_surveyed_date','if_rr_not_details','status_of_RR1','HR_module_completed',
+            'if_rr_surveyed_date','if_rr_not_details','status_of_RR1','HR_module_completed','HR_accompanied',
             
-            'RR_module_completed','if_WER_eligible','if_WER_eligible_coompleted','if_CR_eligible',
+            'RR_module_completed','RR_accompanied','if_WER_eligible','if_WER_eligible_coompleted','WER_accompanied','if_CR_eligible',
             
-            'if_CR_eligible_completed','comments','mark'
+            'if_CR_eligible_completed','CR_accompanied','comments','mark'
             
         ]
         
@@ -48,11 +48,11 @@ class EditTrackingForm(forms.ModelForm):
         fields = [
             'HHID','Supervisor','Enumerator','RR_status','attempt1_date','attempt2_date','attempt3_date',
             
-            'if_rr_surveyed_date','if_rr_not_details','status_of_RR1','HR_module_completed',
+            'if_rr_surveyed_date','if_rr_not_details','status_of_RR1','HR_module_completed','HR_accompanied',
             
-            'RR_module_completed','if_WER_eligible','if_WER_eligible_coompleted','if_CR_eligible',
+            'RR_module_completed','RR_accompanied','if_WER_eligible','if_WER_eligible_coompleted','WER_accompanied','if_CR_eligible',
             
-            'if_CR_eligible_completed','comments','mark'
+            'if_CR_eligible_completed','CR_accompanied','comments','mark'
             
         ]
     

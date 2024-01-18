@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from.forms import TrackingForm,EditTrackingForm
-from .models import TrackingDetails
+from .models import TrackingDetails,Profile
 from .load_data import lookup_hhid,export_data
 from datetime import datetime as datetime
 import os
@@ -12,10 +12,30 @@ import os
 # Create your views here.
 @login_required
 def view_dashboard(request):
+    #print(request.user.profile.supervisor)
+    if Profile.objects.filter(user__username=request.user.username).exists():
+        if request.user.profile.is_supervisor:
+           
+            trackings = TrackingDetails.objects.filter(user__profile__supervisor = request.user.username).order_by('-pk')
+            print(trackings)
+        else:
+            trackings = TrackingDetails.objects.filter(user__username = request.user.username).order_by('-pk')
+            
+            
+    else:
+        
+        trackings = TrackingDetails.objects.filter(user__username = request.user.username).order_by('-pk')
     
-    trackings = TrackingDetails.objects.all().order_by('-pk')
+    if request.user.is_staff:
+        complete = len(TrackingDetails.objects.filter(mark=True))
+        all = len(TrackingDetails.objects.all())
+        incomplete= all - complete
+    else:  
+        complete = len(TrackingDetails.objects.filter(user__username = request.user.username,mark=True))
+        incomplete = len(TrackingDetails.objects.filter(user__username = request.user.username,mark=False))
+        all = len(TrackingDetails.objects.all())
     
-    context = {"trackings":trackings}
+    context = {"trackings":trackings,"complete":complete,"incomplete":incomplete,"mytotal":complete+incomplete,"all":all}
     
     return render(request,'tracker_info/dashboard.html',context)
 
@@ -70,16 +90,13 @@ def add_survey_details(request):
                
                     data_dict = lookup_hhid(int(hhid))[0]
                
-               
-                   
-               
             except:
                 
                 return JsonResponse("failed to lookup HHID! re-check",safe=False)
             
             tracking_ = TrackingDetails(
                 
-                user = User.objects.get(username="koshtech"), Batch = data_dict["Batch"], Sample = data_dict["Sample"],
+                user = request.user, Batch = data_dict["Batch"], Sample = data_dict["Sample"],
                 
                 Sample_type = data_dict["Sample Type"],Stratum = data_dict["Stratum"],
                 
@@ -198,7 +215,25 @@ def delete_survey_details(request,pk):
 @login_required
 def view_survey_details(request):
     
-    trackings = TrackingDetails.objects.all()
+    if Profile.objects.filter(user__username=request.user.username).exists():
+        if request.user.profile.is_supervisor:
+           
+            trackings = TrackingDetails.objects.filter(user__profile__supervisor = request.user.username).order_by('-pk')
+        elif request.user.is_staff:
+            trackings = TrackingDetails.objects.all()
+        else:
+            trackings = TrackingDetails.objects.filter(user__username = request.user.username).order_by('-pk')
+            
+            
+    else:
+        
+        if request.user.is_staff:
+            trackings = TrackingDetails.objects.all()
+        else:
+            
+            trackings = TrackingDetails.objects.filter(user__username = request.user.username).order_by('-pk')
+    
+    
     
     context = {"trackings":trackings}
     
