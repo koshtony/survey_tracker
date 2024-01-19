@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from.forms import TrackingForm,EditTrackingForm
 from .models import TrackingDetails,Profile
 from .load_data import lookup_hhid,export_data
-from datetime import datetime as datetime
+from datetime import datetime as datetime,timedelta
 import os
 
 # Create your views here.
@@ -68,17 +68,17 @@ def add_survey_details(request):
             if_CR_eligible_completed = sub_form.cleaned_data.get("if_CR_eligible_completed")
             comments = sub_form.cleaned_data.get("comments")
             mark = sub_form.cleaned_data.get("mark")
-            print("attempt1 "+str(attempt1_date))
+            now = datetime.now()+timedelta(hours=3)
             if attempt1_date!=None:
                 
-                attempt1_date = datetime.combine(attempt1_date,datetime.strptime(datetime.now().strftime("%H:%M:%S"),"%H:%M:%S").time())
-                print(attempt1_date)
+                attempt1_date = datetime.combine(attempt1_date,datetime.strptime(now.strftime("%H:%M:%S"),"%H:%M:%S").time())
+                
             elif attempt2_date!=None:
                 
-                attempt2_date = datetime.combine(attempt2_date,datetime.strptime(datetime.now().strftime("%H:%M:%S"),"%H:%M:%S").time())
+                attempt2_date = datetime.combine(attempt2_date,datetime.strptime(now.strftime("%H:%M:%S"),"%H:%M:%S").time())
             elif attempt3_date!=None:
                 
-                attempt3_date = datetime.combine(attempt3_date,datetime.strptime(datetime.now().strftime("%H:%M:%S"),"%H:%M:%S").time())
+                attempt3_date = datetime.combine(attempt3_date,datetime.strptime(now.strftime("%H:%M:%S"),"%H:%M:%S").time())
                 
             else:
                 
@@ -152,6 +152,8 @@ def update_survey_details(request,pk):
     
     context = {"form":form, "pk":pk,"tracking":tracking_detail}
     
+    now = datetime.now()+timedelta(hours=3)
+    
     if request.POST:
         
         edit_form = EditTrackingForm(request.POST,instance=tracking_detail)
@@ -167,7 +169,7 @@ def update_survey_details(request,pk):
                 
             elif edit_form.cleaned_data.get("attempt1_date")!=None:
                 
-                edit_commit.attempt1_date=datetime.combine(edit_form.cleaned_data.get("attempt1_date"),datetime.strptime(datetime.now().strftime("%H:%M:%S"),"%H:%M:%S").time())
+                edit_commit.attempt1_date=datetime.combine(edit_form.cleaned_data.get("attempt1_date"),datetime.strptime(now.strftime("%H:%M:%S"),"%H:%M:%S").time())
                 
                 
             
@@ -177,7 +179,7 @@ def update_survey_details(request,pk):
                 
             elif edit_form.cleaned_data.get("attempt2_date")!=None:
                 
-                edit_commit.attempt2_date=datetime.combine(edit_form.cleaned_data.get("attempt2_date"),datetime.strptime(datetime.now().strftime("%H:%M:%S"),"%H:%M:%S").time())
+                edit_commit.attempt2_date=datetime.combine(edit_form.cleaned_data.get("attempt2_date"),datetime.strptime(now.strftime("%H:%M:%S"),"%H:%M:%S").time())
                 
             
             if tracking_filt.attempt3_date!=None:
@@ -186,7 +188,7 @@ def update_survey_details(request,pk):
                 
             elif edit_form.cleaned_data.get("attempt3_date")!=None:
                 
-                edit_commit.attempt3_date=datetime.combine(edit_form.cleaned_data.get("attempt3_date"),datetime.strptime(datetime.now().strftime("%H:%M:%S"),"%H:%M:%S").time())
+                edit_commit.attempt3_date=datetime.combine(edit_form.cleaned_data.get("attempt3_date"),datetime.strptime(now.strftime("%H:%M:%S"),"%H:%M:%S").time())
                 
             if tracking_filt.if_rr_surveyed_date!=None:
                 
@@ -194,7 +196,7 @@ def update_survey_details(request,pk):
                 
             elif edit_form.cleaned_data.get("if_rr_surveyed_date")!=None:
                 
-                edit_commit.if_rr_surveyed_date=datetime.combine(edit_form.cleaned_data.get("if_rr_surveyed_date"),datetime.strptime(datetime.now().strftime("%H:%M:%S"),"%H:%M:%S").time())
+                edit_commit.if_rr_surveyed_date=datetime.combine(edit_form.cleaned_data.get("if_rr_surveyed_date"),datetime.strptime(now.strftime("%H:%M:%S"),"%H:%M:%S").time())
             
                 
             
