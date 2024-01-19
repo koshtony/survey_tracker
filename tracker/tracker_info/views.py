@@ -212,6 +212,21 @@ def delete_survey_details(request,pk):
     
     pass 
 
+@login_required 
+def mark_as_complete(request):
+    
+    if request.POST:
+        
+        pks = request.POST.get("pks").split(',')
+        for pk in pks:
+            
+            tracking = TrackingDetails.objects.get(pk=int(pk))
+            tracking.mark = True 
+            tracking.save()
+            
+        
+        return JsonResponse("marked as complete successfully",safe=False)
+
 @login_required
 def view_survey_details(request):
     

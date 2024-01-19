@@ -3,32 +3,47 @@
 {% block content %}
 
 
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="main-content"> 
     <section class="section">
         <div class="card">
             {% if user.is_staff %}
             <div class="card-header">
-                <div class="col-6">
+                <div class="col-4">
                 <button class="btn btn-outline" onclick="htmlTableToExcel('xlsx','TrackingDataTab','Survey_Track_Data')"><svg width="44px" height="44px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12ZM12 6.25C12.4142 6.25 12.75 6.58579 12.75 7V12.1893L14.4697 10.4697C14.7626 10.1768 15.2374 10.1768 15.5303 10.4697C15.8232 10.7626 15.8232 11.2374 15.5303 11.5303L12.5303 14.5303C12.3897 14.671 12.1989 14.75 12 14.75C11.8011 14.75 11.6103 14.671 11.4697 14.5303L8.46967 11.5303C8.17678 11.2374 8.17678 10.7626 8.46967 10.4697C8.76256 10.1768 9.23744 10.1768 9.53033 10.4697L11.25 12.1893V7C11.25 6.58579 11.5858 6.25 12 6.25ZM8 16.25C7.58579 16.25 7.25 16.5858 7.25 17C7.25 17.4142 7.58579 17.75 8 17.75H16C16.4142 17.75 16.75 17.4142 16.75 17C16.75 16.5858 16.4142 16.25 16 16.25H8Z" fill="#15d912"></path> </g></svg></button>
-                </div>
-                <!--
-                <div class="col-6">
+                <button clas="btn btn-light" onclick="location.reload()"><i class="fa fa-refresh fa-spin"></i></button>
+              </div>
 
-                    <label for="underline_select" class="sr-only">Audit</label>
-                        <select id="underline_select">
-                            <option selected>Audit</option>
-                            <option value="revise">Revised</option>
-                            <option value="approved">Approved</option>
-                            <option value="delete">Delete</option>
-                            
-                        </select>
+              
+                
+                <div class="col-4">
+
+                  <div class="row" style="display:none" id="markLoader">
+                    <button style="background-color:yellowgreen;" disabled type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
+                      <svg aria-hidden="true" role="status" class="inline w-4 h-4 me-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
+                      <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
+                      </svg>
+                      Marking...
+                      </button>
                 </div>
-            -->
+              </div>
+              
+              
+
+            
             </div>
             {% endif %}
-        <div class="row">
-        <div class="table-responsive" style="margin:30px;">
+        
+        <div class="table-responsive" style="margin:30px;zoom:80px;">
+          <div>
+            <div id="toast-simple" style="display:none;color:green;" class="flex items-center w-full max-w-xs p-4 space-x-4 rtl:space-x-reverse text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
+              <svg class="w-5 h-5 text-blue-600 dark:text-blue-500 rotate-45" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 17 8 2L9 1 1 19l8-2Zm0 0V9"/>
+              </svg>
+              <div class="ps-4 text-sm font-normal" id="info"></div>
+            </div>
+          </div>
             <table class="table table-striped" id="TrackingDataTab">
                
                     
@@ -49,9 +64,16 @@
                 </tr>
                 
               <tr>
-                <th style="border: 1px solid black;">Mark as Complete</th>
+                <th style="border: 1px solid black;">Mark as Complete
+                  <div class="flex items-center">
+                    <label style="color:blue;">Select all </label>
+                    <input id="selectAll" style="color:green;" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                </div>
+                <br>
+                <button class="btn btn-success" onclick="Complete();"><i class="fa fa-check"></i></button>
+                </th>
                 
-                <th style="border: 1px solid black;">Audit</th>
+                <th style="border: 1px solid black;">Status</th>
                 
                 
                 <th style="border: 1px solid black;">Action</th>
@@ -88,21 +110,24 @@
                 <th style="border: 1px solid black;">Comments</th>
               </tr>
             </thead>
+            
             <tbody>
+              
               
              
               
               {% for tracking in trackings %}
               <tr>
                 <td><div class="flex items-center">
-                    <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <input id="link-checkbox" type="checkbox" value="{{tracking.pk}}" class="checkboxall">
                 </div>
-                </td>
                 
-                <td><div class="flex items-center">
-                    <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                    
-                </div></td>
+                </td>
+                {% if tracking.mark == False %}
+                    <td><div class="badge badge-danger">Incomplete</div></td>
+                    {% else %}
+                    <td><div class="badge badge-success">Complete</div></td>
+                    {% endif %}
                 {% if tracking.user.username == user.username %}
                 <td><a href="{% url 'tracker-update-survey-details' tracking.pk %}" class="btn btn-primary">Continue</a></td>
                 {% else %}
@@ -163,7 +188,10 @@
 
 <script>
 
-    new DataTable('#TrackingDataTab');
+  $('#TrackingDataTab').dataTable( {
+    "lengthMenu": [100, 1000, 2000],
+    "pageLength": 100
+} )
 
 
     function htmlTableToExcel(type,id,name){
@@ -172,6 +200,60 @@
         XLSX.write(excelFile, { bookType: type, bookSST: true, type: 'base64' });
         XLSX.writeFile(excelFile, name+'.' + type);
        }
+
+  // select all rows 
+  $(document).ready(function(){
+    $("#selectAll").click(function(){
+            if(this.checked){
+                $('.checkboxall').each(function(){
+                    $(".checkboxall").prop('checked', true);
+                })
+            }else{
+                $('.checkboxall').each(function(){
+                    $(".checkboxall").prop('checked', false);
+                })
+            }
+        });
+    });
+
+  function Complete(){
+
+    var checks = []
+    $(".checkboxall:checked").each(function(){
+    checks.push($(this).val());
+    });
+    var all_checks = checks.toString()
+    $.ajax({
+    url:"{% url 'tracker-mark-survey-details' %}",
+    type:"POST",
+    data:{
+      pks:all_checks,
+      
+      csrfmiddlewaretoken:'{{ csrf_token }}',
+    
+    },
+    beforeSend:function(){
+                $("#markLoader").show()
+    },
+    success:function(data,status){
+      
+      $("#toast-simple").show()
+
+      $("#info").html(data)
+        
+    },
+    complete:function(){
+                
+                $("#markLoader").hide()
+                
+
+}
+
+
+})
+
+      
+  }
 </script>
 
 

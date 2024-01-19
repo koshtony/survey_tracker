@@ -79,9 +79,9 @@
               </div>
             </div>
             <div class="card-body p-0">
-              <div class="table-responsive table-invoice">
-                <table class="table table-striped">
-                
+              <div class="table-responsive table-invoice" style="margin:20px;">
+                <table class="table table-striped" id="summary">
+                <thead>
                   <tr>
                     <th>HHID</th>
                     <th>Supervisor</th>
@@ -91,9 +91,9 @@
                     <th>Last Edit</th>
                     <th>Action</th>
                   </tr>
-                  
+                </thead>
                  
-                  
+                <tbody>
                   {% for tracking in trackings %}
                   <tr>
                     <td>{{tracking.HHID}}</td>
@@ -113,6 +113,7 @@
                     {% endif %}
                   </tr>
                   {% endfor %}
+                </tbody>
                 </table>
               </div>
             </div>
@@ -125,7 +126,7 @@
                 <i class="far fa-question-circle"></i>
               </div>
               <h4>{{all}}</h4>
-              <div class="card-description"></div>
+              <div class="card-description">General Entries</div>
             </div>
             <div class="card-body p-0">
               
@@ -135,5 +136,20 @@
       </div>
     </section>
   </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+<script>
+
+  
+    $('#summary').dataTable( {
+        "lengthMenu": [10, 100, 1000, 2000],
+        "pageLength": 10
+    } )
+
+</script>
 
 {% endblock content %}

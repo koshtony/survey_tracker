@@ -16,3 +16,5 @@ typing_extensions
 tzdata
 whitenoise
 pillow
+python-dotenv
+psycopg2
