@@ -45,7 +45,7 @@ class TrackingDetails(models.Model):
     
     # HR Module 
     HR_module_completed_choices =  (("",""),("Completed","Completed"),("Not Completed","Not Completed"))
-    accompanied_by_supervisor_choices = (("",""),("Partially Accompanied","Partially Accompanied"),("Fully Accompanied","Fully Accompanied"))
+    accompanied_by_supervisor_choices = (("",""),("Partially Accompanied","Partially Accompanied"),("Fully Accompanied","Fully Accompanied"),("Not Accompanied","Not Accompanied"))
     HR_module_completed = models.CharField(max_length=100,blank=True,null=True,choices = HR_module_completed_choices,verbose_name="Has the HR module been completed or not completed?")
     HR_accompanied = models.CharField(max_length=100,blank=True,null=True,choices = accompanied_by_supervisor_choices,verbose_name="Were you accompanied by the supervisor?")
     # RR module

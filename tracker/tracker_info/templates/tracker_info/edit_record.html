@@ -55,11 +55,11 @@
             </div>
           </div>
         </div>
-        <form id="trackForm" method="POST">
+        <form id="trackForm" method="POST" style="font-weight:bold; font-size:18px;">
           <div class="row" style="margin-left:20px;">
             <div class="col-6">
               <div class="form-group">
-            <button class="btn btn-primary" type="submit" onclick="loadTrackForm();" style="background-color:yellowgreen;"> submit </button>
+            <button class="btn btn-primary btn-lg" type="submit" onclick="loadTrackForm();" style="background-color:yellowgreen;"> submit Details </button>
               </div>
             </div>
             <div class="col-6">
@@ -72,7 +72,7 @@
           </div>
           {% csrf_token %}
         <div class="card-body">
-          <div class="card" style="background-color:blue;height:40px;">
+          <div class="card" style="background-color:#3c228a;height:40px;">
             <h2 style="text-align:center;margin-top:10px; fontweight:bold; font-size:20px; color:white;">Sample Details</h2>
           </div>
             <br>
@@ -102,7 +102,7 @@
         
         </div>
         <br>
-        <div class="card" style="background-color:blue;height:40px;">
+        <div class="card" style="background-color:#3c228a;height:40px;">
           <h2 style="text-align:center;margin-top:10px; fontweight:bold; font-size:20px; color:white;">RR Status</h2>
         </div>
         <br>
@@ -121,27 +121,29 @@
         
         </div>
         <br>
-        <div class="card" style="background-color:blue;height:40px;">
-          <h2 style="text-align:center;margin-top:10px; fontweight:bold; font-size:20px; color:white;">RR1 Respondent</h2>
+        <div class="card" style="background-color:#3c228a;height:40px;">
+          <h2 style="text-align:center;margin-top:10px; fontweight:bold; font-size:20px; color:white;">Attempts to Interview RR</h2>
         </div>
         <br>
         <div class="row">
             
           <div class="col-4">
           <div class="form-group">
-           
+
+            
+            <small style="color:green; font-weight:bold">Data:{{tracking.attempt1_date}}</small>
             {{form.attempt1_date|as_crispy_field}}
           </div>
         </div>
         <div class="col-4">
           <div class="form-group">
-            
+            <small style="color:green; font-weight:bold">Data:{{tracking.attempt2_date}}</small>
             {{form.attempt2_date|as_crispy_field}}
           </div>
         </div>
         <div class="col-4">
           <div class="form-group">
-            
+            <small style="color:green; font-weight:bold">Data:{{tracking.attempt3_date}}</small>
             {{form.attempt3_date|as_crispy_field}}
           </div>
         </div>
@@ -152,7 +154,7 @@
             
           <div class="col-4">
           <div class="form-group">
-           
+            <small style="color:green; font-weight:bold">Data:{{tracking.if_rr_surveyed_date}}</small>
             {{form.if_rr_surveyed_date|as_crispy_field}}
           </div>
         </div>
@@ -182,7 +184,7 @@
         </div>
         <br>
         <br>
-        <div class="card" style="background-color:blue;height:40px;">
+        <div class="card" style="background-color:#3c228a;height:40px;">
           <h2 style="text-align:center;margin-top:10px; fontweight:bold; font-size:20px; color:white;">HR Module</h2>
         </div>
         <br>
@@ -205,7 +207,7 @@
         
         </div>
         <br>
-        <div class="card" style="background-color:blue;height:40px;">
+        <div class="card" style="background-color:#3c228a;height:40px;">
           <h2 style="text-align:center;margin-top:10px; fontweight:bold; font-size:20px; color:white;">RR Module</h2>
         </div>
         <br>
@@ -228,7 +230,7 @@
         
         </div>
         <br>
-        <div class="card" style="background-color:blue;height:40px;">
+        <div class="card" style="background-color:#3c228a;height:40px;">
           <h2 style="text-align:center;margin-top:10px; fontweight:bold; font-size:20px; color:white;">WER Module</h2>
         </div>
         <br>
@@ -256,7 +258,7 @@
           </div>
         </div>
         <br>
-        <div class="card" style="background-color:blue;height:40px;">
+        <div class="card" style="background-color:#3c228a;height:40px;">
           <h2 style="text-align:center;margin-top:10px; fontweight:bold; font-size:20px; color:white;">CR Module</h2>
         </div>
         <br>
@@ -286,7 +288,7 @@
           </div>
         </div>
         <br>
-        <div class="card" style="background-color:blue;height:40px;">
+        <div class="card" style="background-color:#3c228a;height:40px;">
         <h2 style="text-align:center;margin-top:10px; fontweight:bold; font-size:20px; color:white;">Comments</h2>
         </div>
         <br>
@@ -359,6 +361,9 @@
         })
      })
   }
+
+  // view dates info 
+
 
 </script>
 {% endblock content %}

@@ -135,7 +135,7 @@ def add_survey_details(request):
             
             
             
-            return JsonResponse("info addedd",safe=False)
+            return JsonResponse("info added successfully",safe=False)
     
     context = {"form":form}
     
@@ -203,7 +203,7 @@ def update_survey_details(request,pk):
             
             edit_commit.save()
             
-            return JsonResponse("info updated",safe=False)
+            return JsonResponse("info updated successfully",safe=False)
     
     
     
