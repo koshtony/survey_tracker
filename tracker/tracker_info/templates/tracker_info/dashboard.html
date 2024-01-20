@@ -10,9 +10,11 @@
                 
               </div>
               <div class="card-stats-items">
+                {% if user.is_staff == False or user.is_superuser == False %}
                 <div class="card-stats-item">
                 <a class="btn btn-primary" href="{% url 'tracker-add-survey-details' %}">+ New record</a>
                 </div>
+                {% endif %}
                 
                
                 
@@ -125,7 +127,9 @@
               <div class="card-icon">
                 <i class="far fa-question-circle"></i>
               </div>
+              {% if user.is_superuser %}
               <h4>{{all}}</h4>
+              {% endif %}
               <div class="card-description">General Entries</div>
             </div>
             <div class="card-body p-0">

@@ -16,17 +16,17 @@ def view_dashboard(request):
     if Profile.objects.filter(user__username=request.user.username).exists():
         if request.user.profile.is_supervisor:
            
-            trackings = TrackingDetails.objects.filter(user__profile__supervisor = request.user.username).order_by('-pk')
+            trackings = TrackingDetails.objects.filter(user__profile__supervisor = request.user.username).order_by('-last_updated')
             print(trackings)
         else:
-            trackings = TrackingDetails.objects.filter(user__username = request.user.username).order_by('-pk')
+            trackings = TrackingDetails.objects.filter(user__username = request.user.username).order_by('-last_updated')
             
             
     else:
         
-        trackings = TrackingDetails.objects.filter(user__username = request.user.username).order_by('-pk')
+        trackings = TrackingDetails.objects.filter(user__username = request.user.username).order_by('-last_updated')
     
-    if request.user.is_staff:
+    if request.user.is_superuser:
         complete = len(TrackingDetails.objects.filter(mark=True))
         all = len(TrackingDetails.objects.all())
         incomplete= all - complete
@@ -116,7 +116,7 @@ def add_survey_details(request):
                 
                 if_CR_eligible=if_CR_eligible,if_CR_eligible_completed=if_CR_eligible_completed,
                 
-                comments = comments, mark = mark , last_updated = datetime.now()
+                comments = comments, mark = mark , last_updated = datetime.now()+timedelta(hours=3)
                 
                 
                 
@@ -199,7 +199,7 @@ def update_survey_details(request,pk):
                 edit_commit.if_rr_surveyed_date=datetime.combine(edit_form.cleaned_data.get("if_rr_surveyed_date"),datetime.strptime(now.strftime("%H:%M:%S"),"%H:%M:%S").time())
             
                 
-            
+            edit_commit.last_updated = datetime.now()+timedelta(hours=3)
             
             edit_commit.save()
             
@@ -235,20 +235,20 @@ def view_survey_details(request):
     if Profile.objects.filter(user__username=request.user.username).exists():
         if request.user.profile.is_supervisor:
            
-            trackings = TrackingDetails.objects.filter(user__profile__supervisor = request.user.username).order_by('-pk')
+            trackings = TrackingDetails.objects.filter(user__profile__supervisor = request.user.username).order_by('-last_updated')
         elif request.user.is_staff:
             trackings = TrackingDetails.objects.all()
         else:
-            trackings = TrackingDetails.objects.filter(user__username = request.user.username).order_by('-pk')
+            trackings = TrackingDetails.objects.filter(user__username = request.user.username).order_by('-last_updated')
             
             
     else:
         
-        if request.user.is_staff:
-            trackings = TrackingDetails.objects.all()
+        if request.user.is_superuser:
+            trackings = TrackingDetails.objects.all().order_by('-last_updated')
         else:
             
-            trackings = TrackingDetails.objects.filter(user__username = request.user.username).order_by('-pk')
+            trackings = TrackingDetails.objects.filter(user__username = request.user.username).order_by('-last_updated')
     
     
     
