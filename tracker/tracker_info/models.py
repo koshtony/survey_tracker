@@ -78,20 +78,37 @@ class TrackingDetails(models.Model):
     def __str__(self):
         
         return f'Batch: {self.Batch} supervisor:{self.Supervisor} Enumerator:{self.Enumerator} RR name: {self.RR_name}'
+    
+    class Meta:
+        
+        verbose_name = "Record"
 
 
 class Supervisors(models.Model):
     
-    name = models.CharField(max_length=100,default="")
+    name = models.CharField(max_length=100,default="", verbose_name="Region Name")
+    supervisor = models.ForeignKey(User,related_name="supervisor_username",null=True,on_delete=models.SET_NULL)
+    coordinator = models.ForeignKey(User,related_name="coordinator_username",null=True,on_delete=models.SET_NULL)
+    fc = models.ForeignKey(User,null=True,related_name="field_username",verbose_name="field coordinator",on_delete=models.SET_NULL)
+    
+    def __str__(self):
+        
+        return f'Region Name: {self.name}'
+    
+    class Meta:
+        
+        verbose_name = "Surpervisor's Region"
+        verbose_name_plural = "Surpervisor's Region"
     
 class Profile(models.Model):
     
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    supervisor = models.CharField(max_length=100,blank=True, null=True,verbose_name="Supervisor username")
-    coordinator = models.CharField(max_length=100,blank=True, null=True,verbose_name="Coordinator username")
+    region = models.ForeignKey(Supervisors,on_delete=models.SET_NULL,null=True,verbose_name="Region",related_name="region_name")
     is_supervisor = models.BooleanField(default=False)
     is_coordinator = models.BooleanField(default=False)
+    is_FC = models.BooleanField(default=False)
     image = models.ImageField(default="user.png",upload_to="profile_images")
+    added_by = models.ForeignKey(User,null=True,related_name="added_by",on_delete=models.SET_NULL)
     
     def __str__(self):
         

@@ -10,7 +10,27 @@
                 
               </div>
               <div class="card-stats-items">
-                {% if user.is_staff == False or user.is_superuser == False %}
+                {% if user.profile.is_supervisor %}
+                <h6>status:<strong style="color:yellowgreen;">Supervisor</strong></h6>
+                {% elif user.profile.is_coordinator %}
+                <h6>status:<strong style="color:yellowgreen;">Coordinator</strong></h6>
+                {% elif user.profile.is_FC %}
+                <h6>status:<strong style="color:yellowgreen;">Field Coordinator</strong></h6>
+                {% elif user.is_staff  %}
+
+                <h6>status:<strong style="color:yellowgreen;">Admin</strong></h6>
+                {% elif user.is_superuser  %}
+
+                <h6>status:<strong style="color:yellowgreen;">Superuser</strong></h6>
+
+                {% else %}
+
+                <h6>status:<strong style="color:yellowgreen;">Normal</strong></h6>
+
+                {% endif %}
+
+
+                {% if user.profile.is_supervisor == False %}
                 <div class="card-stats-item">
                 <a class="btn btn-primary" href="{% url 'tracker-add-survey-details' %}">+ New record</a>
                 </div>
@@ -102,17 +122,23 @@
                     <td class="font-weight-600">{{tracking.supervisor}}</td>
                     <td class="font-weight-600">{{tracking.RR_name}}</td>
                     
-                    {% if tracking.mark == False %}
-                    <td><div class="badge badge-danger">Incomplete</div></td>
-                    {% else %}
-                    <td><div class="badge badge-success">Complete</div></td>
-                    {% endif %}
-                    <td>{{tracking.last_updated}}</td>
-                   {% if tracking.user.username == request.user.username or tracking.user.profile.supervisor == request.user.username  %}
+                    
                     <td>
-                      <a href="{% url 'tracker-update-survey-details' tracking.pk %}" class="btn btn-primary">Continue</a>
-                    </td>
+                      {% if tracking.mark == False %}
+                      <div class="badge badge-danger">Incomplete</div>
+                    {% else %}
+                    <div class="badge badge-success">Complete</div>
                     {% endif %}
+                    </td>
+                    <td>{{tracking.last_updated}}</td>
+                    <td>
+                      {% if tracking.user.username == request.user.username  %}
+                      <a href="{% url 'tracker-update-survey-details' tracking.pk %}" class="btn btn-primary">Continue</a>
+                      {% else %}
+                      <i class="fa fa-times">author</i>
+                      {% endif %}
+                    </td>
+                   
                   </tr>
                   {% endfor %}
                 </tbody>

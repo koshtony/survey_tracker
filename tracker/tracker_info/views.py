@@ -13,27 +13,60 @@ import os
 @login_required
 def view_dashboard(request):
     #print(request.user.profile.supervisor)
+    complete = 0
+    all = 0 
+    incomplete = 0
     if Profile.objects.filter(user__username=request.user.username).exists():
         if request.user.profile.is_supervisor:
            
-            trackings = TrackingDetails.objects.filter(user__profile__supervisor = request.user.username).order_by('-last_updated')
+            trackings = TrackingDetails.objects.filter(user__profile__region__supervisor__username = request.user.username).order_by('-last_updated')
             print(trackings)
+            complete += len(TrackingDetails.objects.filter(user__profile__region__supervisor__username = request.user.username,mark=True))
+            all += len(trackings)
+            incomplete += all - complete
+            
+            
+        elif request.user.profile.is_coordinator:
+            
+            trackings = TrackingDetails.objects.filter(user__profile__region__coordinator__username = request.user.username).order_by('-last_updated')
+            print(trackings)
+            complete += len(TrackingDetails.objects.filter(user__profile__region__coordinator__username = request.user.username,mark=True))
+            all += len(trackings)
+            incomplete += all - complete
+            
+            
+        elif request.user.profile.is_FC:
+            
+            trackings = TrackingDetails.objects.filter(user__profile__region__fc__username = request.user.username).order_by('-last_updated')
+            print(trackings)
+            complete += len(TrackingDetails.objects.filter(user__profile__region__fc__username = request.user.username,mark=True))
+            all += len(trackings)
+            incomplete += all - complete
+            
+       
+        elif request.user.is_superuser:
+            
+            trackings = TrackingDetails.objects.all()
+            complete += len(TrackingDetails.objects.filter(mark=True))
+            all += len(TrackingDetails.objects.all())
+            incomplete += all - complete
+            
         else:
-            trackings = TrackingDetails.objects.filter(user__username = request.user.username).order_by('-last_updated')
-            
-            
+            trackings = TrackingDetails.objects.filter(user__username = request.user.username)
+            complete += len(TrackingDetails.objects.filter(user__username = request.user.username,mark=True))
+            incomplete += len(TrackingDetails.objects.filter(user__username = request.user.username,mark=False))
+            all += complete + incomplete
     else:
+        trackings = TrackingDetails.objects.filter(user__username = request.user.username)
+        complete += len(TrackingDetails.objects.filter(user__username = request.user.username,mark=True))
+        incomplete += len(TrackingDetails.objects.filter(user__username = request.user.username,mark=False))
+        all += complete + incomplete
         
-        trackings = TrackingDetails.objects.filter(user__username = request.user.username).order_by('-last_updated')
-    
-    if request.user.is_superuser:
-        complete = len(TrackingDetails.objects.filter(mark=True))
-        all = len(TrackingDetails.objects.all())
-        incomplete= all - complete
-    else:  
-        complete = len(TrackingDetails.objects.filter(user__username = request.user.username,mark=True))
-        incomplete = len(TrackingDetails.objects.filter(user__username = request.user.username,mark=False))
-        all = len(TrackingDetails.objects.all())
+        
+        
+        
+            
+                        
     
     context = {"trackings":trackings,"complete":complete,"incomplete":incomplete,"mytotal":complete+incomplete,"all":all}
     
@@ -220,14 +253,40 @@ def mark_as_complete(request):
     if request.POST:
         
         pks = request.POST.get("pks").split(',')
-        for pk in pks:
-            
-            tracking = TrackingDetails.objects.get(pk=int(pk))
-            tracking.mark = True 
-            tracking.save()
-            
+        action = request.POST.get("action")
+        status = ""
         
-        return JsonResponse("marked as complete successfully",safe=False)
+            
+        if action == "complete":
+            for pk in pks:
+                tracking = TrackingDetails.objects.get(pk=int(pk))
+                tracking.mark = True 
+                tracking.save()
+                
+            status+="marked as complete successfully"
+                
+        elif action == "incomplete":
+            for pk in pks:   
+                tracking = TrackingDetails.objects.get(pk=int(pk))
+                tracking.mark = False
+                tracking.save()
+            status+="marked as incomplete successfully"
+                
+        elif action == "delete":
+            for pk in pks:
+                tracking = TrackingDetails.objects.get(pk=int(pk))
+                tracking.delete()
+            status+="Deleted successfully"
+        else:
+            
+            status+="Action not recognised"
+                
+            
+                
+                
+                
+        
+        return JsonResponse(status,safe=False)
 
 @login_required
 def view_survey_details(request):
@@ -235,23 +294,27 @@ def view_survey_details(request):
     if Profile.objects.filter(user__username=request.user.username).exists():
         if request.user.profile.is_supervisor:
            
-            trackings = TrackingDetails.objects.filter(user__profile__supervisor = request.user.username).order_by('-last_updated')
-        elif request.user.is_staff:
-            trackings = TrackingDetails.objects.all()
-        else:
-            trackings = TrackingDetails.objects.filter(user__username = request.user.username).order_by('-last_updated')
+            trackings = TrackingDetails.objects.filter(user__profile__region__supervisor__username = request.user.username).order_by('-last_updated')
+        
+        elif request.user.profile.is_coordinator:
             
+            trackings = TrackingDetails.objects.filter(user__profile__region__coordinator__username = request.user.username).order_by('-last_updated')
+           
+ 
+        elif request.user.profile.is_FC:
+            
+            trackings = TrackingDetails.objects.filter(user__profile__region__fc__username = request.user.username).order_by('-last_updated')
+          
+        elif request.user.is_superuser:
+            
+            trackings = TrackingDetails.objects.all()
+          
+        else:
+            trackings = TrackingDetails.objects.filter(user__username = request.user.username)
             
     else:
+        trackings = TrackingDetails.objects.filter(user__username = request.user.username)
         
-        if request.user.is_superuser:
-            trackings = TrackingDetails.objects.all().order_by('-last_updated')
-        else:
-            
-            trackings = TrackingDetails.objects.filter(user__username = request.user.username).order_by('-last_updated')
-    
-    
-    
     context = {"trackings":trackings}
     
     return render(request,'tracker_info/view_data.html',context)
