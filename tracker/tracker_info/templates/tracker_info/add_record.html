@@ -53,7 +53,7 @@
           <div class="row" style="margin-left:20px;">
             <div class="col-6">
               <div class="form-group">
-            <button class="btn btn-primary btn-lg" type="submit" onclick="loadTrackForm();" style="background-color:yellowgreen;"> submit Details </button>
+            <button class="btn btn-primary btn-lg"  type="submit" style="background-color:yellowgreen;"> submit Details </button>
               </div>
             </div>
             <div class="col-6">
@@ -116,13 +116,15 @@
         </div>
         <br>
         <div class="card" style="background-color:#3c228a;height:40px;">
-          <h2 style="text-align:center;margin-top:10px; fontweight:bold; font-size:20px; color:white;">RR1 Respondent</h2>
+          <h2 style="text-align:center;margin-top:10px; fontweight:bold; font-size:20px; color:white;">Attempts to Interview RR</h2>
         </div>
         <br>
         <div class="row">
             
           <div class="col-4">
           <div class="form-group">
+
+           
            
             {{form.attempt1_date|as_crispy_field}}
           </div>
@@ -308,11 +310,14 @@
     </div>
 </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 
-  function loadTrackForm(){
+  $(function(){
 
-     $("#trackForm").submit(function(e){
+   
+
+     $("#trackForm").on('submit',function(e){
 
        
         e.preventDefault();
@@ -327,8 +332,10 @@
           method:"POST",
           url:"{% url 'tracker-add-survey-details' %}",
           data:formData,
-          processData:false,
-          contentType:false,
+          processData: false,
+          contentType: false,
+          cache: false,
+          
           beforeSend:function(){
 
             $("#loader1").show()
@@ -348,7 +355,10 @@
           }
         })
      })
-  }
+    }
+  )
+    
+  
 
 </script>
 {% endblock content %}

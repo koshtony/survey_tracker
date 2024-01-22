@@ -19,7 +19,7 @@ def view_dashboard(request):
     if Profile.objects.filter(user__username=request.user.username).exists():
         if request.user.profile.is_supervisor:
            
-            trackings = TrackingDetails.objects.filter(user__profile__region__supervisor__username = request.user.username).order_by('-last_updated')
+            trackings = TrackingDetails.objects.filter(user__profile__region__supervisor__username = request.user.username).order_by('last_updated')
             print(trackings)
             complete += len(TrackingDetails.objects.filter(user__profile__region__supervisor__username = request.user.username,mark=True))
             all += len(trackings)
@@ -28,7 +28,7 @@ def view_dashboard(request):
             
         elif request.user.profile.is_coordinator:
             
-            trackings = TrackingDetails.objects.filter(user__profile__region__coordinator__username = request.user.username).order_by('-last_updated')
+            trackings = TrackingDetails.objects.filter(user__profile__region__coordinator__username = request.user.username).order_by('last_updated')
             print(trackings)
             complete += len(TrackingDetails.objects.filter(user__profile__region__coordinator__username = request.user.username,mark=True))
             all += len(trackings)
@@ -37,7 +37,7 @@ def view_dashboard(request):
             
         elif request.user.profile.is_FC:
             
-            trackings = TrackingDetails.objects.filter(user__profile__region__fc__username = request.user.username).order_by('-last_updated')
+            trackings = TrackingDetails.objects.filter(user__profile__region__fc__username = request.user.username).order_by('last_updated')
             print(trackings)
             complete += len(TrackingDetails.objects.filter(user__profile__region__fc__username = request.user.username,mark=True))
             all += len(trackings)
@@ -102,6 +102,7 @@ def add_survey_details(request):
             comments = sub_form.cleaned_data.get("comments")
             mark = sub_form.cleaned_data.get("mark")
             now = datetime.now()+timedelta(hours=3)
+            print(supervisor)
             if attempt1_date!=None:
                 
                 attempt1_date = datetime.combine(attempt1_date,datetime.strptime(now.strftime("%H:%M:%S"),"%H:%M:%S").time())
@@ -294,16 +295,16 @@ def view_survey_details(request):
     if Profile.objects.filter(user__username=request.user.username).exists():
         if request.user.profile.is_supervisor:
            
-            trackings = TrackingDetails.objects.filter(user__profile__region__supervisor__username = request.user.username).order_by('-last_updated')
+            trackings = TrackingDetails.objects.filter(user__profile__region__supervisor__username = request.user.username).order_by('last_updated')
         
         elif request.user.profile.is_coordinator:
             
-            trackings = TrackingDetails.objects.filter(user__profile__region__coordinator__username = request.user.username).order_by('-last_updated')
+            trackings = TrackingDetails.objects.filter(user__profile__region__coordinator__username = request.user.username).order_by('last_updated')
            
  
         elif request.user.profile.is_FC:
             
-            trackings = TrackingDetails.objects.filter(user__profile__region__fc__username = request.user.username).order_by('-last_updated')
+            trackings = TrackingDetails.objects.filter(user__profile__region__fc__username = request.user.username).order_by('last_updated')
           
         elif request.user.is_superuser:
             
