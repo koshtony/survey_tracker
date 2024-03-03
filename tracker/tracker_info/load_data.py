@@ -25,6 +25,18 @@ def export_data(filename):
     
     export_df.to_excel(filename,index=False)
     
+def load_users():
+    
+    df = pd.read_excel(r'C:\Users\user\Music\survey_tracker\tracker\tracker_info\users.xlsx',sheet_name='KAP F-D Final Team')
+    
+    return df
+    
+
+    
+    
+    
+    
+    
     
 
 

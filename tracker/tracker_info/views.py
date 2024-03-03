@@ -1,11 +1,11 @@
 from django.shortcuts import render
-from django.http import JsonResponse,FileResponse
+from django.http import JsonResponse,FileResponse,HttpResponse
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from.forms import TrackingForm,EditTrackingForm
 from .models import TrackingDetails,Profile
-from .load_data import lookup_hhid,export_data
+from .load_data import lookup_hhid,export_data,load_users
 from datetime import datetime as datetime,timedelta
 import os
 
@@ -343,5 +343,26 @@ def register_user(request):
 def activate_user(request):
     
     pass
+    
+    
+def load_data(request):
+    
+    df = load_users()
+    print(df.columns)
+    
+    for idx in df.index:
+        print(df["Ifield Log Ins "][idx])
+        if len(User.objects.filter(username = df["Ifield Log Ins "][idx] )) <= 0:
+            user = User(
+                username = df["Ifield Log Ins "][idx],
+                password = '@Wbpass01'
+            )
+            user.save()
+        else:
+            print("already exists")
+        
+    
+    return HttpResponse("yes")
+    
     
     
