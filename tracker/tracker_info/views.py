@@ -103,73 +103,77 @@ def add_survey_details(request):
             mark = sub_form.cleaned_data.get("mark")
             now = datetime.now()+timedelta(hours=3)
             print(supervisor)
-            if attempt1_date!=None:
+            if len(TrackingDetails.objects.filter(HHID=hhid)) == 0:
+                if attempt1_date!=None:
+                    
+                    attempt1_date = datetime.combine(attempt1_date,datetime.strptime(now.strftime("%H:%M:%S"),"%H:%M:%S").time())
+                    
+                elif attempt2_date!=None:
+                    
+                    attempt2_date = datetime.combine(attempt2_date,datetime.strptime(now.strftime("%H:%M:%S"),"%H:%M:%S").time())
+                elif attempt3_date!=None:
+                    
+                    attempt3_date = datetime.combine(attempt3_date,datetime.strptime(now.strftime("%H:%M:%S"),"%H:%M:%S").time())
+                    
+                else:
+                    
+                    attempt1_date = attempt1_date 
                 
-                attempt1_date = datetime.combine(attempt1_date,datetime.strptime(now.strftime("%H:%M:%S"),"%H:%M:%S").time())
                 
-            elif attempt2_date!=None:
+                try:
+                    
                 
-                attempt2_date = datetime.combine(attempt2_date,datetime.strptime(now.strftime("%H:%M:%S"),"%H:%M:%S").time())
-            elif attempt3_date!=None:
+                        data_dict = lookup_hhid(int(hhid))[0]
                 
-                attempt3_date = datetime.combine(attempt3_date,datetime.strptime(now.strftime("%H:%M:%S"),"%H:%M:%S").time())
+                except:
+                    
+                    return JsonResponse("<strong style='color:red'>failed to lookup HHID! re-check</strong>",safe=False)
                 
-            else:
+                tracking_ = TrackingDetails(
+                    
+                    user = request.user, Batch = data_dict["Batch"], Sample = data_dict["Sample"],
+                    
+                    Sample_type = data_dict["Sample Type"],Stratum = data_dict["Stratum"],
+                    
+                    Status = data_dict["Status"],HHID = hhid, Supervisor = supervisor,
+                    
+                    Enumerator = enum , HR_name = data_dict["HR name"], RR_name = data_dict["RR name"],
+                    
+                    WER_name = data_dict["WER name"],CR_name = data_dict["CR name"], 
+                    
+                    RR_status = rr_status , attempt1_date = attempt1_date, attempt2_date=attempt2_date,
+                    
+                    attempt3_date = attempt3_date , if_rr_surveyed_date=if_rr_surveyed_date, 
+                    
+                    if_rr_not_details = if_rr_not_details, status_of_RR1=status_of_RR1,HR_module_completed=HR_module_completed,
+                    
+                    RR_module_completed = RR_module_completed, if_WER_eligible=if_WER_eligible,if_WER_eligible_coompleted=if_WER_eligible_coompleted,
+                    
+                    if_CR_eligible=if_CR_eligible,if_CR_eligible_completed=if_CR_eligible_completed,
+                    
+                    comments = comments, mark = mark , last_updated = datetime.now()+timedelta(hours=3)
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                )
+                tracking_.save()
+                    
+                    
                 
-                attempt1_date = attempt1_date 
+                
+                
+                
+                return JsonResponse("info added successfully",safe=False)
             
-            
-            try:
+            else: return JsonResponse("<strong style='color:red'>Record alredy exists!, edit the record instead</strong>",safe=False)
                 
-               
-                    data_dict = lookup_hhid(int(hhid))[0]
-               
-            except:
-                
-                return JsonResponse("failed to lookup HHID! re-check",safe=False)
-            
-            tracking_ = TrackingDetails(
-                
-                user = request.user, Batch = data_dict["Batch"], Sample = data_dict["Sample"],
-                
-                Sample_type = data_dict["Sample Type"],Stratum = data_dict["Stratum"],
-                
-                Status = data_dict["Status"],HHID = hhid, Supervisor = supervisor,
-                
-                Enumerator = enum , HR_name = data_dict["HR name"], RR_name = data_dict["RR name"],
-                
-                WER_name = data_dict["WER name"],CR_name = data_dict["CR name"], 
-                
-                RR_status = rr_status , attempt1_date = attempt1_date, attempt2_date=attempt2_date,
-                
-                attempt3_date = attempt3_date , if_rr_surveyed_date=if_rr_surveyed_date, 
-                
-                if_rr_not_details = if_rr_not_details, status_of_RR1=status_of_RR1,HR_module_completed=HR_module_completed,
-                
-                RR_module_completed = RR_module_completed, if_WER_eligible=if_WER_eligible,if_WER_eligible_coompleted=if_WER_eligible_coompleted,
-                
-                if_CR_eligible=if_CR_eligible,if_CR_eligible_completed=if_CR_eligible_completed,
-                
-                comments = comments, mark = mark , last_updated = datetime.now()+timedelta(hours=3)
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-            )
-            tracking_.save()
-                
-                
-            
-            
-            
-            
-            return JsonResponse("info added successfully",safe=False)
     
     context = {"form":form}
     
