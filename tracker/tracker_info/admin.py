@@ -11,11 +11,13 @@ class ProfileAdmin(admin.ModelAdmin):
     
     autocomplete_fields = ["user"]
     
+    list_display = ('region','is_supervisor','is_coordinator','is_FC','added_by')
+    search_fields = ('user__username',)
+    
 class SupervisorsAdmin(admin.ModelAdmin):
     
     autocomplete_fields = ["supervisor","coordinator","fc"]
-    
-    
+
     
     
     
