@@ -3,7 +3,7 @@ import os
 from django.conf import settings
 from .models import TrackingDetails
 def lookup_hhid(hhid):
-    
+    # updated tracking file
     file = os.path.join(settings.MEDIA_ROOT,'tracking1.xlsx')
     
     data = pd.read_excel(file)
